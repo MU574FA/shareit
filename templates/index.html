@@ -60,7 +60,11 @@
                 <h4 text>{{file}}</h4>
                 <div class="btn">
                     <a href="/download/{{file}}/" download><button class="btn btn-outline-success">↓</button></a>
-                    <!-- <a href="/delete/{{file}}/"><button class="btn btn-outline-danger">✖</button></a> -->
+
+                    {% if context.remote_addr == context.host_addr %}
+                        <a href="/delete/{{file}}/"><button class="btn btn-outline-danger">✖</button></a>
+                    {% endif %}
+
                 </div>
             </div>
         {% endfor %}
