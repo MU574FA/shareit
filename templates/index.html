@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap.min.css') }}">
+    <title>{{ title }}</title>
+</head>
+<body class="bg-dark text-white">
+
+<!-- Navbar -->
+<div class="container">
+    <div class="row p-3">
+        <nav class="navbar navbar-dark bg-dark rounded justify-content-around shadow-sm border border-secondary">
+            <button class="nav-item btn btn-outline-danger" onclick="shareToggle()">Shareit</button>
+            <!-- <button class="nav-item btn btn-outline-success" onclick="filesToggle()">Files</button> -->
+            <button class="nav-item btn btn-outline-success" onclick="searchToggle()">Search</button>
+        </nav>
+    </div>
+</div>
+
+
+<!-- Loading -->
+<div class="container" id="loading" style="display: none;">
+    <div class="row p-4">
+        </button>
+            <button class="btn btn-dark" type="button" disabled>
+            <span class="spinner-grow spinner-grow-sm text-warning" role="status" aria-hidden="true"></span>
+            Uploading...
+        </button>
+    </div>
+</div>
+
+
+<!-- Search -->
+<div class="container" id="search-bar" style="display: none;">
+    <div class="row p-4">
+        <input type="text" id="search" placeholder="Search..." class="form-control" onkeyup="search()">
+    </div>
+</div>
+
+<!-- Share Form -->
+<div class="container" id="share-bar" style="display: none;">
+    <div class="row p-3 bg-dark rounded">
+        <form method="post" enctype="multipart/form-data">
+            <input type="file" name="file" class="form-control" required id="file-field">
+            <input type="submit" class="form-control btn btn-success mt-2" onclick="loading()" value="Share">
+        </form>
+    </div>
+</div>
+
+
+
+<!-- Files -->
+<div class="container" id="files-bar">
+    <div class="row p-3 bg-dark rounded">
+        {% for file in context.files %}
+            <div class="alert navbar border border-secondary file">
+                <h4 text>{{file}}</h4>
+                <div class="btn">
+                    <a href="/download/{{file}}/" download><button class="btn btn-outline-success">↓</button></a>
+                    <!-- <a href="/delete/{{file}}/"><button class="btn btn-outline-danger">✖</button></a> -->
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+
+
+<script src="{{ url_for('static', filename='bootstrap.min.js') }}"></script>
+<script src="{{ url_for('static', filename='jquery.min.js') }}"></script>
+<script src="{{ url_for('static', filename='index.js') }}"></script>
+</body>
+</html>
