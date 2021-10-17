@@ -11,8 +11,12 @@ basedir   = Path(__file__).parent
 filespath = os.path.join(basedir, "files")
 host      = "0.0.0.0"
 port      = 8000
-host_name = socket.gethostname()
-host_addr = socket.gethostbyname(host_name + ".local")
+
+# ----- Get host ipv4 address -----
+s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+s.connect(("8.8.8.8", 80))
+host_addr = s.getsockname()[0]
+s.close()
 
 # ----- Creating the app -----
 app = Flask(__name__)
