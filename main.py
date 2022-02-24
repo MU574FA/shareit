@@ -1,5 +1,6 @@
 import os
 from pathlib import Path
+from waitress import serve
 from functions import make_unique
 from flask import Flask, request, render_template, send_file, redirect
 
@@ -42,5 +43,5 @@ def download(file):
 
 
 if __name__ == "__main__":
-    os.system("clear")
-    os.system("gunicorn main:app -b 0.0.0.0")
+    print(f"Serving on http://{host}:{port}")
+    serve(app, host=host, port=port)
