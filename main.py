@@ -1,8 +1,5 @@
 import os
-import socket
-from sys import argv
 from pathlib import Path
-from waitress import serve
 from functions import make_unique
 from flask import Flask, request, render_template, send_file, redirect
 
@@ -11,12 +8,6 @@ basedir   = Path(__file__).parent
 filespath = os.path.join(basedir, "files")
 host      = "0.0.0.0"
 port      = 8000
-
-# ----- Get host ipv4 address -----
-s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-s.connect(("8.8.8.8", 80))
-host_addr = s.getsockname()[0]
-s.close()
 
 # ----- Creating the app -----
 app = Flask(__name__)
@@ -27,8 +18,6 @@ app = Flask(__name__)
 def home():
     context = {}
     context['files']       = os.listdir(filespath)
-    context['remote_addr'] = request.remote_addr
-    context['host_addr']   = host_addr
     return render_template("index.html", context=context)
 
 
@@ -51,20 +40,7 @@ def download(file):
     path = os.path.join(filespath, file)
     return send_file(path)
 
-# ----- Delete files handler -----
-@app.route("/delete/<file>/", methods=['GET'])
-def delete(file):
-    if request.remote_addr == host_addr:
-        path = os.path.join(filespath, file)
-        os.remove(path)
-    return redirect("/")
-
 
 if __name__ == "__main__":
-    if argv[-1] == "debug": 
-        app.run(debug=True, host=host, port=port)
-    else:
-        
-        print(f"Serving on http://{host_addr}:{port}")
-        serve(app, host=host, port=port)
-    
+    os.system("clear")
+    os.system("gunicorn main:app -b 0.0.0.0")

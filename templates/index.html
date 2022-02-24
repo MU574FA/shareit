@@ -13,9 +13,9 @@
 <div class="container">
     <div class="row p-3">
         <nav class="navbar navbar-dark bg-dark rounded justify-content-around shadow-sm border border-secondary">
-            <button class="nav-item btn btn-outline-danger" onclick="shareToggle()">Shareit</button>
+            <button class="nav-item btn btn-outline-danger rounded-pill" onclick="shareToggle()">Upload</button>
             <!-- <button class="nav-item btn btn-outline-success" onclick="filesToggle()">Files</button> -->
-            <button class="nav-item btn btn-outline-success" onclick="searchToggle()">Search</button>
+            <button class="nav-item btn btn-outline-success rounded-pill" onclick="searchToggle()">Search</button>
         </nav>
     </div>
 </div>
@@ -36,7 +36,7 @@
 <!-- Search -->
 <div class="container" id="search-bar" style="display: none;">
     <div class="row p-4">
-        <input type="text" id="search" placeholder="Search..." class="form-control" onkeyup="search()">
+        <input type="text" id="search" placeholder="Search..." class="form-control bg-dark text-white rounded-pill border-secondary" onkeyup="search()">
     </div>
 </div>
 
@@ -45,7 +45,7 @@
     <div class="row p-3 bg-dark rounded">
         <form method="post" enctype="multipart/form-data">
             <input type="file" name="file" class="form-control" required id="file-field">
-            <input type="submit" class="form-control btn btn-success mt-2" onclick="loading()" value="Share">
+            <input type="submit" class="form-control btn btn-success mt-2" onclick="loading()" value="Shareit">
         </form>
     </div>
 </div>
@@ -54,24 +54,17 @@
 
 <!-- Files -->
 <div class="container" id="files-bar">
-    <div class="row p-3 bg-dark rounded">
+    <div class="row p-3 bg-dark justify-content-around">
         {% for file in context.files %}
-            <div class="alert navbar border border-secondary file">
-                <h4 text>{{file}}</h4>
-                <div class="btn">
-                    <a href="/download/{{file}}/" download><button class="btn btn-outline-success">↓</button></a>
-
-                    {% if context.remote_addr == context.host_addr %}
-                        <a href="/delete/{{file}}/"><button class="btn btn-outline-danger">✖</button></a>
-                    {% endif %}
-
+            <div class="card bg-dark border-secondary m-3 col-lg-4"> 
+                <div class="card-header">{{file}}</div>
+                <div class="card-footer">
+                    <a href="/download/{{file}}" download><button class="btn btn-outline-success w-100 rounded-pill">↓</button></a>
                 </div>
             </div>
         {% endfor %}
     </div>
 </div>
-
-
 
 <script src="{{ url_for('static', filename='bootstrap.min.js') }}"></script>
 <script src="{{ url_for('static', filename='jquery.min.js') }}"></script>
