@@ -1,8 +1,8 @@
 import os
 from pathlib import Path
 from waitress import serve
-from functions import make_unique
 from flask import Flask, request, render_template, send_file, redirect
+from functions import make_unique, my_ip_address
 
 # ----- App Settings -----
 basedir   = Path(__file__).parent
@@ -18,6 +18,7 @@ app = Flask(__name__)
 @app.route("/", methods=['GET'])
 def home():
     context = {}
+    context['ip'] = f"http://{my_ip_address()}:{port}" 
     context['files']       = os.listdir(filespath)
     return render_template("index.html", context=context)
 
