@@ -39,7 +39,7 @@ Contains utility functions used by the main application.
 2. Install the required packages:
 
 ```bash
-pip install flask waitress
+pip install -r requirements.txt
 ```
 
 3. Run the application:
